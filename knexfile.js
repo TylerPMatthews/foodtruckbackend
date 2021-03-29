@@ -1,12 +1,14 @@
-require('dotenv').config()
+require("dotenv").config();
 /*
-
+fixed env
   PORT=5000
   NODE_ENV=development
   DEV_DATABASE_URL='postgresql://postgres:password@localhost:5432/database_name'
   TESTING_DATABASE_URL='postgresql://postgres:password@localhost:5432/testing_database_name'
 
   Put the above in your .env file. Some adjustments in the connection URLs will be needed:
+
+  test edit here
 
     - 5432 (this is the default TCP port for PostgreSQL, should work as is and can be omitted)
     - postgres (in postgres:password, this is the default superadmin user, might work as is)
@@ -15,17 +17,22 @@ require('dotenv').config()
     - testing_database_name (use the real name of the testing database you created in pgAdmin 4)
 
 */
-const pg = require('pg')
+const pg = require("pg");
+const localConnection = "postgresql://localhost/yeezyshoesbackend";
+let connection;
 
 if (process.env.DATABASE_URL) {
-  pg.defaults.ssl = { rejectUnauthorized: false }
+  pg.defaults.ssl = { rejectUnauthorized: false };
+  connection = process.env.DATABASE_URL;
+} else {
+  connection = localConnection;
 }
 
 const sharedConfig = {
-  client: 'pg',
-  migrations: { directory: './api/data/migrations' },
-  seeds: { directory: './api/data/seeds' },
-}
+  client: "pg",
+  migrations: { directory: "./api/data/migrations" },
+  seeds: { directory: "./api/data/seeds" },
+};
 
 module.exports = {
   development: {
@@ -39,6 +46,7 @@ module.exports = {
   production: {
     ...sharedConfig,
     connection: process.env.DATABASE_URL,
+    ssl: { rejectUnauthorized: false },
     pool: { min: 2, max: 10 },
   },
-}
+};
