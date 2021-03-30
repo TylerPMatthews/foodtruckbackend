@@ -16,6 +16,9 @@ const post = (data) => {
 const remove = (id) => {
   return db("diner").where("diner_id", id).del();
 };
+const findBy = (filter) => {
+  return db("diner").where(filter);
+};
 const getLocation = () => {
   return db("diner_location");
 };
@@ -38,4 +41,5 @@ module.exports = {
   getLocation,
   getDinerwLocation,
   editLocation,
+  findBy,
 };

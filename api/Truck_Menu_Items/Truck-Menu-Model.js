@@ -1,7 +1,7 @@
 const db = require("../../api/data/db-config");
 
 const getAll = () => {
-  return db("truck_menu_items");
+  return db("truck_menu_items")
 };
 const getByID = (id) => {
   return db("truck_menu_items").where("truck_menu_id", id);
