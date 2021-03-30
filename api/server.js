@@ -4,11 +4,23 @@ const cors = require("cors");
 const Diner = require("./Diner/Diner-Routes");
 const Operator = require("./Operator/Operator-Routes");
 const Truck = require("./Trucks/Truck-Routes");
+const Menu = require("./Menu/Menu-Router");
+const Item = require("./Items/Item-Routes");
+const TruckMenu = require("./Truck_Menu_Items/Truck-Menu-Router");
 
 const server = express();
 server.use(express.json());
 server.use(helmet());
 server.use(cors());
+
+//Truck-Menu endpoints
+server.use("/api/truckmenu", TruckMenu);
+
+//Item endpoints
+server.use("/api/item", Item);
+
+//Menu endpoints
+server.use("/api/menu", Menu);
 
 //Truck endpoints
 server.use("/api/truck", Truck);
@@ -47,7 +59,7 @@ server.get("/", (req, res) => {
       postLocation: "POST/api/truck/location",
       getLocationByID: "GET/api/truck/id/location",
       updateLocation: "PUT/api/truck/id/location",
-    }
+    },
   });
 });
 
