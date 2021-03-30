@@ -7,7 +7,8 @@ const Truck = require("./Trucks/Truck-Routes");
 const Menu = require("./Menu/Menu-Router");
 const Item = require("./Items/Item-Routes");
 const TruckMenu = require("./Truck_Menu_Items/Truck-Menu-Router");
-const DinerAuth = require('./Diner/Diner-Auth');
+const DinerAuth = require("./Diner/Diner-Auth");
+const OperatorAuth = require("./Operator/Operator-Auth");
 
 const server = express();
 server.use(express.json());
@@ -26,11 +27,14 @@ server.use("/api/menu", Menu);
 //Truck endpoints
 server.use("/api/truck", Truck);
 
+//Operator Auth
+server.use("/operator", OperatorAuth);
+
 //Operator endpoints
 server.use("/api/operator", Operator);
 
 //Diner Auth
-server.use("/diner", DinerAuth)
+server.use("/diner", DinerAuth);
 
 //Diner endpoints
 server.use("/api/dine", Diner);

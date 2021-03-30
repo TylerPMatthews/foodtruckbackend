@@ -14,10 +14,13 @@ const post = (data) => {
 const remove = (id) => {
   return db("operator").where("operator_id", id).del();
 };
-
+const findBy = (filter) => {
+  return db("operator").where(filter);
+};
 module.exports = {
   getAll,
   post,
   remove,
   getByID,
+  findBy,
 };

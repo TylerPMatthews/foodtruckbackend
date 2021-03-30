@@ -1,10 +1,11 @@
+module.exports = {
+  isValid,
+};
+
 function isValid(user) {
-    return Boolean(
-      user.diner_username && user.diner_email && user.diner_password
-    );
-  }
-  
-  module.exports = {
-    isValid,
-  };
-  
+  return Boolean(
+    user.diner_username &&
+      user.diner_password &&
+      typeof user.diner_password === "string"
+  );
+}

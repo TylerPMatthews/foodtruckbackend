@@ -1,6 +1,6 @@
 const bcryptjs = require("bcryptjs");
 const router = require("express").Router();
-const Diner = require("./Diner-Model");
+const Operator = require("./Operator-Model");
 const jwt = require("jsonwebtoken");
 const { jwtSecret } = require("../../config/secret");
 
@@ -11,12 +11,12 @@ router.post("/register", async (req, res) => {
   const hashRounds = 8;
 
   //hashing the pass
-  const hash = bcryptjs.hashSync(credentials.diner_password, hashRounds);
-  credentials.diner_password = hash;
+  const hash = bcryptjs.hashSync(credentials.operator_password, hashRounds);
+  credentials.operator_password = hash;
 
   //save the user to the database
 
-  await Diner.post(credentials)
+  await Operator.post(credentials)
     .then((user) => {
       res.status(201).json(user);
     })
@@ -28,23 +28,26 @@ router.post("/register", async (req, res) => {
 //Login
 
 router.post("/login", (req, res) => {
-  const { diner_username, diner_password } = req.body;
+  const { operator_username, operator_password } = req.body;
 
-  Diner.findBy({ diner_username: diner_username })
+  Operator.findBy({ operator_username: operator_username })
     .then(([user]) => {
       // compare the password the hash stored in the database
-      if (user && bcryptjs.compareSync(diner_password, user.diner_password)) {
+      if (
+        user &&
+        bcryptjs.compareSync(operator_password, user.operator_password)
+      ) {
         const token = makeToken(user);
 
         res.status(200).json({
           message:
-            "diner_username:" +
+            "operator_username:" +
             " " +
-            user.diner_username +
+            user.operator_username +
             " " +
-            "diner_ID:" +
+            "operator_ID:" +
             " " +
-            user.diner_id,
+            user.operator_id,
           token,
         });
       } else {
@@ -58,8 +61,8 @@ router.post("/login", (req, res) => {
 
 const makeToken = (user) => {
   const payload = {
-    subject: user.diner_id,
-    username: user.diner_username,
+    subject: user.operator_id,
+    username: user.operator_username,
   };
   const options = {
     expiresIn: "1hr",
