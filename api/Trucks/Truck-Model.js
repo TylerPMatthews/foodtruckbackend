@@ -8,6 +8,10 @@ const getByID = (id) => {
   return db("trucks").where("truck_id", id);
 };
 
+const getTruckByOP = (opID) => {
+  return db("trucks").where("operator_id", opID);
+};
+
 const post = (data) => {
   return db("trucks").insert(data);
 };
@@ -33,11 +37,17 @@ const deleteLocation = (id) => {
 };
 const getTruckALocation = (id) => {
   return db("trucks as t")
-    .join("truck_location as tl", "tl.truck_location_id", "t.truck_id")
-    .where("t.truck_id", id);
+    .where("t.truck_id", id)
+    .join("truck_location as tl", "t.truck_id", "tl.truck_location_id");
 };
 const getAllLocation = () => {
   return db("truck_location");
+};
+const getLocationByOID = (id) => {
+  return db("truck_location").where("truck_id", id);
+};
+const editLocationByID = (id, changes) => {
+  return db("truck_location").where("truck_id", id).update(changes);
 };
 module.exports = {
   getAll,
@@ -45,10 +55,13 @@ module.exports = {
   remove,
   getByID,
   edit,
+  getTruckByOP,
   postLocation,
   getLocationByID,
   editLocation,
   deleteLocation,
   getTruckALocation,
   getAllLocation,
+  getLocationByOID,
+  editLocationByID,
 };

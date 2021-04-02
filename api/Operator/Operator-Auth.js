@@ -40,15 +40,9 @@ router.post("/login", (req, res) => {
         const token = makeToken(user);
 
         res.status(200).json({
-          message:
-            "operator_username:" +
-            " " +
-            user.operator_username +
-            " " +
-            "operator_ID:" +
-            " " +
-            user.operator_id,
           token,
+          operator_username: user.operator_username,
+          operator_id:user.operator_id,
         });
       } else {
         res.status(401).json({ message: "Invalid credentials" });

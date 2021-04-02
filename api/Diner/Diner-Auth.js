@@ -37,15 +37,9 @@ router.post("/login", (req, res) => {
         const token = makeToken(user);
 
         res.status(200).json({
-          message:
-            "diner_username:" +
-            " " +
-            user.diner_username +
-            " " +
-            "diner_ID:" +
-            " " +
-            user.diner_id,
           token,
+          diner_username: user.diner_username,
+          diner_id:user.diner_id,
         });
       } else {
         res.status(401).json({ message: "Invalid credentials" });

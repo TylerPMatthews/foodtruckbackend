@@ -4,7 +4,7 @@ const getAll = () => {
   return db("items");
 };
 const getByID = (id) => {
-  return db("items").where("item_id", id);
+  return db("items").where("menu_id", id);
 };
 const post = (data) => {
   return db("items").insert(data);

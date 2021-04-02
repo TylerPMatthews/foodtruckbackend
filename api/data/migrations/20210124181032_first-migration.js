@@ -64,6 +64,13 @@ exports.up = async (knex) => {
     .createTable("menu", (menu) => {
       menu.increments("menu_id");
       menu.string("menu_name", 200).notNullable();
+      menu
+        .integer("truck_id")
+        .unsigned()
+        .notNullable()
+        .references("truck_id")
+        .inTable("trucks")
+        .onDelete("RESTRICT");
     })
     .createTable("items", (items) => {
       items.increments("item_id");
@@ -73,31 +80,12 @@ exports.up = async (knex) => {
       items.integer("item_price");
       items.specificType("item_ratings", "integer ARRAY");
       items.integer("item_ratings_avg");
-    })
-    .createTable("truck_menu_items", (tmi) => {
-      tmi.increments("truck_menu_id");
-      tmi
-        .integer("truck_id")
-        .unsigned()
-        .notNullable()
-        .references("truck_id")
-        .inTable("trucks")
-        .onDelete("RESTRICT");
-
-      tmi
+      items
         .integer("menu_id")
         .unsigned()
         .notNullable()
         .references("menu_id")
         .inTable("menu")
-        .onDelete("RESTRICT");
-
-      tmi
-        .integer("item_id")
-        .unsigned()
-        .notNullable()
-        .references("item_id")
-        .inTable("items")
         .onDelete("RESTRICT");
     });
 };
@@ -109,6 +97,5 @@ exports.down = async (knex) => {
     .dropTableIfExists("operator")
     .dropTableIfExists("trucks")
     .dropTableIfExists("menu")
-    .dropTableIfExists("items")
-    .dropTableIfExists("truck_menu_items");
+    .dropTableIfExists("items");
 };

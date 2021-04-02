@@ -23,13 +23,13 @@ const getLocation = () => {
   return db("diner_location");
 };
 const getByIDlocation = (id) => {
-  return db("diner_location").where("diner_location_id", id);
+  return db("diner_location").where("diner_id", id);
 };
 const postLocation = (data) => {
   return db("diner_location").insert(data);
 };
 const editLocation = (id, changes) => {
-  return db("diner_location").where("diner_location_id", id).update(changes);
+  return db("diner_location").where("diner_id", id).update(changes);
 };
 
 module.exports = {
